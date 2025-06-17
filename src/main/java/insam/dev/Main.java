@@ -59,6 +59,12 @@ public class Main {
                 .createQuery("select  s from Student s", Student.class)
                 .list();
 
+        Student studentByName = session.createQuery(
+                        "select s from Student s where s.name = :name", Student.class).
+                setParameter("name", "Pasha")
+                .getSingleResult();
+        System.out.println("Student by name: "+ studentByName.toString());
+
         session.close();
     }
 }
