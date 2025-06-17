@@ -45,4 +45,13 @@ public class Student {
     public Integer getAge() {
         return age;
     }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
 }
