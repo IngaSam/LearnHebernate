@@ -20,6 +20,8 @@ public class Main {
         session.persist(student2);
         session.getTransaction().commit();//коммит в танзакции
 
+
+        //Запрос в БД
         Student studentById1 = session.get(Student.class, 1L);
         System.out.println("student1 " + studentById1.toString());
 
@@ -28,6 +30,15 @@ public class Main {
                 setParameter("id", 2)
                 .getSingleResult();
         System.out.println("student2 " + studentById2.toString());
+
+        //Обновление БД
+        session.beginTransaction();
+        Student studentForUpdate = session.get(Student.class, 1L);
+        studentForUpdate.setName("Dima");
+        studentForUpdate.setAge(30);
+        session.getTransaction().commit();
+
+
         session.close();
     }
 }
