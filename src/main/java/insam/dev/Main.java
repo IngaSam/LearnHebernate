@@ -38,6 +38,11 @@ public class Main {
         studentForUpdate.setAge(30);
         session.getTransaction().commit();
 
+        //Удаление данных в БД
+        session.beginTransaction();
+        Student studentForDelete = session.get(Student.class, 2L);
+        session.remove(studentForDelete);
+        session.getTransaction().commit();
 
         session.close();
     }
