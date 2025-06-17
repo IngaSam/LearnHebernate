@@ -4,6 +4,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
@@ -46,10 +48,16 @@ public class Main {
         /*session.createQuery("delete from Student s where s.id = 2")
                         .executeUpdate();*/
 
-        session.createNativeQuery("delete from students s where s.id=2")
-                .executeUpdate();
+      //С помощью SQL запроса
+/*        session.createNativeQuery("delete from students s where s.id=2")
+                .executeUpdate();*/
 
         session.getTransaction().commit();
+
+        //Вывод всех студентов
+        List<Student> allStudents = session
+                .createQuery("select  s from Student s", Student.class)
+                .list();
 
         session.close();
     }
