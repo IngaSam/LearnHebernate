@@ -59,11 +59,18 @@ public class Main {
                 .createQuery("select  s from Student s", Student.class)
                 .list();
 
+        //Запрос по имени
         Student studentByName = session.createQuery(
                         "select s from Student s where s.name = :name", Student.class).
                 setParameter("name", "Pasha")
                 .getSingleResult();
         System.out.println("Student by name: "+ studentByName.toString());
+
+        //Для проверки на уникальность
+/*        session.beginTransaction();
+        Student student3 = new Student("Pasha", 21);
+        session.persist(student3);
+        session.getTransaction().commit();*/
 
         session.close();
     }
