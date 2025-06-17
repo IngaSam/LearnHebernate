@@ -40,8 +40,12 @@ public class Main {
 
         //Удаление данных в БД
         session.beginTransaction();
-        Student studentForDelete = session.get(Student.class, 2L);
-        session.remove(studentForDelete);
+/*        Student studentForDelete = session.get(Student.class, 2L);
+        session.remove(studentForDelete);*/
+        //С помощью HQL
+        session.createQuery("delete from Student s where s.id = 2")
+                        .executeUpdate();
+
         session.getTransaction().commit();
 
         session.close();
