@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Main {
@@ -20,5 +21,12 @@ public class Main {
 
         studentService.saveStudent(student1);
         studentService.saveStudent(student2);
+
+        Profile profile1 = new Profile("My bio", LocalDateTime.now(),student1);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+        session.save(profile1);
+        session.getTransaction().commit();
+        session.close();
     }
 }
