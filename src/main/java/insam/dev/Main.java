@@ -28,6 +28,9 @@ public class Main {
 
         session.beginTransaction();
         student1.setName("Dima");
+        session.detach(student1); //ссесия перестала следить за сущностью
+        student1.setAge(30);
+
         session.getTransaction().commit();
 
         session.close();
