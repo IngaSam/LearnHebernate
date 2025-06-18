@@ -21,9 +21,18 @@ public class Main {
         session.persist(student1);//сохраняем студента в БД
         session.persist(student2);
         session.getTransaction().commit();//коммит в танзакции
+        session.close();
 
+        session= sessionFactory.openSession();
+        student1 = session.merge(student1);
 
-        //Запрос в БД
+        session.beginTransaction();
+        student1.setName("Dima");
+        session.getTransaction().commit();
+
+        session.close();
+
+/*        //Запрос в БД
         Student studentById1 = session.get(Student.class, 1L);
         System.out.println("student1 " + studentById1.toString());
 
@@ -42,15 +51,15 @@ public class Main {
 
         //Удаление данных в БД
         session.beginTransaction();
-/*        Student studentForDelete = session.get(Student.class, 2L);
-        session.remove(studentForDelete);*/
+*//*        Student studentForDelete = session.get(Student.class, 2L);
+        session.remove(studentForDelete);*//*
         //С помощью JPQL
-        /*session.createQuery("delete from Student s where s.id = 2")
-                        .executeUpdate();*/
+        *//*session.createQuery("delete from Student s where s.id = 2")
+                        .executeUpdate();*//*
 
       //С помощью SQL запроса
-/*        session.createNativeQuery("delete from students s where s.id=2")
-                .executeUpdate();*/
+*//*        session.createNativeQuery("delete from students s where s.id=2")
+                .executeUpdate();*//*
 
         session.getTransaction().commit();
 
@@ -67,11 +76,11 @@ public class Main {
         System.out.println("Student by name: "+ studentByName.toString());
 
         //Для проверки на уникальность
-/*        session.beginTransaction();
+*//*        session.beginTransaction();
         Student student3 = new Student("Pasha", 21);
         session.persist(student3);
-        session.getTransaction().commit();*/
+        session.getTransaction().commit();*//*
 
-        session.close();
+        session.close();*/
     }
 }
