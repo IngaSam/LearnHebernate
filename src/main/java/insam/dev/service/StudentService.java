@@ -1,8 +1,10 @@
 package insam.dev.service;
 
 import insam.dev.Student;
+import insam.dev.TransactionHelper;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,47 +13,43 @@ import java.util.List;
 public class StudentService {
     private final SessionFactory sessionFactory;
 
-    public StudentService(SessionFactory sessionFactory) {
+    private final TransactionHelper transactionHelper;
+
+
+    public StudentService(SessionFactory sessionFactory, TransactionHelper transactionHelper) {
         this.sessionFactory = sessionFactory;
+        this.transactionHelper = transactionHelper;
     }
 
     public Student saveStudent(Student student) {
-        Session session = sessionFactory.openSession();
-
-        session.beginTransaction(); //стартует транзакция
-        session.persist(student);//сохраняем студента в БД
-        session.getTransaction().commit();
-        session.close();
-        return student;
+       return transactionHelper.executeInTransaction(session ->{
+            session.persist(student);
+            return student;
+        });
     }
     public void deleteStudent(Long id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Student studentForDelete = session.get(Student.class, 2L);
-        session.remove(studentForDelete);
-        session.close();
+        transactionHelper.executeInTransaction(session -> {
+            Student studentForDelete = session.get(Student.class, 2L);
+            session.remove(studentForDelete);
+        });
     }
     public Student getById(Long id) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        Student student = session.get(Student.class, id);
-        session.close();
-        return student;
+        try (Session session = sessionFactory.openSession()) {
+
+            return session.get(Student.class, id);
+        }
+
     }
     public List<Student> findAll() {
-        Session session = sessionFactory.openSession();
-        List<Student> allStudents = session
-                .createQuery("select  s from Student s", Student.class)
-                .list();
-        session.close();
-        return allStudents;
+        try (Session session = sessionFactory.openSession()) {
+            return session
+                    .createQuery("select  s from Student s", Student.class)
+                    .list();
+        }
     }
     public Student updateStudent(Student student) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction(); //стартует транзакция
-        session.getTransaction().commit();
-        student = session.merge(student);
-        session.close();
-        return student;
+        return transactionHelper.executeInTransaction(session -> {
+            return session.merge(student);
+        });
     }
 }
