@@ -28,5 +28,16 @@ public class Main {
         session.save(profile1);
         session.getTransaction().commit();
         session.close();
+        
+        session = sessionFactory.openSession();
+        //profile1 = session.get(Profile.class, 1L);
+        student1 = session.get(Student.class, 1L);
+        session.beginTransaction();
+       // session.remove(profile1);
+        session.remove(student1);
+        session.getTransaction().commit();
+        session.close();
+
+        
     }
 }
