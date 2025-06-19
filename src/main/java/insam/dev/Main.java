@@ -1,5 +1,6 @@
 package insam.dev;
 
+import insam.dev.service.ProfileService;
 import insam.dev.service.StudentService;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +16,8 @@ public class Main {
 
         SessionFactory sessionFactory = context.getBean(SessionFactory.class);
         StudentService studentService = context.getBean(StudentService.class);
+        ProfileService profileService = context.getBean(ProfileService.class);
+
 
         Student student1 = new Student("Vasya", 22);
         Student student2 = new Student("Pasha", 20);
@@ -23,20 +26,7 @@ public class Main {
         studentService.saveStudent(student2);
 
         Profile profile1 = new Profile("My bio", LocalDateTime.now(),student1);
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(profile1);
-        session.getTransaction().commit();
-        session.close();
-        
-        session = sessionFactory.openSession();
-        //profile1 = session.get(Profile.class, 1L);
-        student1 = session.get(Student.class, 1L);
-        session.beginTransaction();
-       // session.remove(profile1);
-        session.remove(student1);
-        session.getTransaction().commit();
-        session.close();
+        profileService.saveProfile(profile1);
 
         
     }
