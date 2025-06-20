@@ -30,13 +30,10 @@ public class Main {
         studentService.saveStudent(student1);
         studentService.saveStudent(student2);
 
-        var session = sessionFactory.openSession();
-
-        group1=session.get(Group.class, 1L);
-        session.close();
-        List<Student> studentList=group1.getStudentList();
-        studentList.forEach(System.out::println);
-
+        System.out.println("-------");
+        System.out.println();
+        groupService.findAll();
+    
 
 
         
