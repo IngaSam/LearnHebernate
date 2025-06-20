@@ -12,18 +12,24 @@ public class Student {
 
     @Column(name = "student name", unique = true, nullable = false)
     private String name;
+
     @Column(name="student age")
     private Integer age;
 
     @OneToOne(mappedBy = "student", cascade = CascadeType.REMOVE) //profile автоматом тоже будет переходить в состояние persist
     private Profile profile;
 
+    @ManyToOne
+    @JoinColumn(name ="group_id")
+    private Group group;
+
     public Student() {
     }
 
-    public Student(String name, Integer age) {
-        this.name = name;
+    public Student(String name,  Integer age, Group group) {
+        this.group = group;
         this.age = age;
+        this.name = name;
     }
 
     public Profile getProfile() {

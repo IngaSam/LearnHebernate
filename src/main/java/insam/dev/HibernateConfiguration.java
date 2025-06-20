@@ -1,5 +1,6 @@
 package insam.dev;
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +14,7 @@ public class HibernateConfiguration {
         configuration
                 .addAnnotatedClass(Student.class)
                 .addAnnotatedClass(Profile.class)
+                .addAnnotatedClass(Group.class)
                 .addPackage("insam.dev")
                 .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
                 .setProperty("hibernate.connection.url", "jdbc:postgresql://localhost:5432/postgres")
