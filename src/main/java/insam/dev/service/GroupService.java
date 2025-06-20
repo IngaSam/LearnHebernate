@@ -29,7 +29,9 @@ public class GroupService {
     }
     public List<Group> findAll() {
         try (Session session = sessionFactory.openSession()) {
-            return session.createQuery("SELECT g from Group g", Group.class).list();
+            List<Group> list = session.createQuery("SELECT g from Group g left join fetch g.studentList s left join fetch s.profile", Group.class).list();
+            return list;
+          
 
         }
     }
